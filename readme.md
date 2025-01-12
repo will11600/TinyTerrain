@@ -1,6 +1,6 @@
 ﻿# TinyTerrain
 
-TinyTerrain is a C# library designed for the efficient storage and streaming of voxel terrain data. It prioritizes compact storage and fast retrieval, making it suitable for games and applications where optimized terrain management is crucial.
+TinyTerrain is a C# library designed for the efficient storage and streaming of terrain data. It prioritizes compact storage and fast retrieval, making it suitable for games and applications where optimized terrain management is crucial.
 
 ## Features
 
@@ -21,11 +21,6 @@ TinyTerrain is a C# library designed for the efficient storage and streaming of 
 ## Example
 
 ```C#
-// Define biomes
-IBiome[] biomes = new IBiome[2];
-biomes[0] = new ForestBiome();
-biomes[1] = new DesertBiome();
-
 // Create a new terrain (16x16 chunks)
 Terrain terrain = new Terrain(16, 16, "terrain.bin", biomes);
 
@@ -36,9 +31,6 @@ TerrainChunk chunk = terrain[0, 0];
 chunk.BiomeId = 1;
 terrain[0, 0] = chunk;
 
-// Sample the terrain
-float terrainHeight = terrain.BilinearSample(new Vector2(5.0f, 2.5f));
-
 // Create a streaming handler
 TerrainStreamingHandler handler = terrain.CreateStreamingHandler();
 
@@ -47,3 +39,6 @@ handler.Position = new Vector2(10.0f, 5.0f);
 
 // Dispose of the terrain when finished
 terrain.Dispose();
+```
+## Contributing
+Contributions are welcome! Feel free to submit issues or pull requests.
