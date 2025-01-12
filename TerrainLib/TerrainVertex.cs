@@ -16,7 +16,7 @@ public struct TerrainVertex<T>(short height, byte materialId) where T : struct, 
     /// </summary>
     public short height = height;
 
-    private byte _materialId = materialId;
+    private byte materialId = materialId;
     /// <summary>
     /// Gets or sets the material ID.
     /// </summary>
@@ -24,7 +24,7 @@ public struct TerrainVertex<T>(short height, byte materialId) where T : struct, 
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the value is less than 0 or greater than 3.</exception>
     public int MaterialId
     {
-        readonly get => _materialId;
+        readonly get => materialId;
         set
         {
             if (value is < 0 or > 3)
@@ -32,7 +32,7 @@ public struct TerrainVertex<T>(short height, byte materialId) where T : struct, 
                 throw new ArgumentOutOfRangeException(nameof(value), value, "The Material ID must be between 0 and 3.");
             }
 
-            _materialId = (byte)value;
+            materialId = (byte)value;
         }
     }
 
@@ -74,7 +74,7 @@ public struct TerrainVertex<T>(short height, byte materialId) where T : struct, 
 
         heightOffset &= 0x3F;
 
-        int materialIndex = chunk.palette.IndexOf(_materialId);
+        int materialIndex = chunk.palette.IndexOf(materialId);
 
         return (byte)((materialIndex << 6) | heightOffset);
     }

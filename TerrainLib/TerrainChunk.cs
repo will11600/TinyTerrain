@@ -15,14 +15,14 @@ public struct TerrainChunk<T> where T : struct, IDivisionOperators<T, int, T>, I
     internal const byte RESOLUTION = WIDTH * HEIGHT;
     internal const byte BUFFER_SIZE = RESOLUTION + 1;
 
-    private readonly TerrainVertex<T>[] _vertices;
+    private readonly TerrainVertex<T>[] vertices;
 
     /// <summary>
     /// Gets the number of vertices in the chunk.
     /// </summary>
-    public readonly int Length => _vertices.Length;
+    public readonly int Length => vertices.Length;
 
-    private byte _biomeId;
+    private byte biomeId;
     /// <summary>
     /// Gets or sets the biome ID.
     /// </summary>
@@ -30,7 +30,7 @@ public struct TerrainChunk<T> where T : struct, IDivisionOperators<T, int, T>, I
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the value is less than 0 or greater than 7.</exception>
     public int BiomeId
     {
-        readonly get => _biomeId;
+        readonly get => biomeId;
         set
         {
             if (value is < 0 or > 7)
@@ -38,11 +38,11 @@ public struct TerrainChunk<T> where T : struct, IDivisionOperators<T, int, T>, I
                 throw new ArgumentOutOfRangeException(nameof(value), value, "The biome ID must be between 0 and 15.");
             }
 
-            _biomeId = (byte)value;
+            biomeId = (byte)value;
         }
     }
 
-    private byte _baseHeight;
+    private byte baseHeight;
     /// <summary>
     /// Gets or sets the base height.
     /// </summary>
@@ -50,7 +50,7 @@ public struct TerrainChunk<T> where T : struct, IDivisionOperators<T, int, T>, I
     /// <exception cref="ArgumentOutOfRangeException">Thrown when the value is less than 0 or greater than 31.</exception>
     public int BaseHeight
     {
-        readonly get => _baseHeight;
+        readonly get => baseHeight;
         set
         {
             if (value is < 0 or > 31)
@@ -58,7 +58,7 @@ public struct TerrainChunk<T> where T : struct, IDivisionOperators<T, int, T>, I
                 throw new ArgumentOutOfRangeException(nameof(value), value, "The biome ID must be between 0 and 31.");
             }
 
-            _baseHeight = (byte)value;
+            baseHeight = (byte)value;
         }
     }
 
@@ -75,8 +75,8 @@ public struct TerrainChunk<T> where T : struct, IDivisionOperators<T, int, T>, I
     /// <returns>A reference to the vertex.</returns>
     public readonly TerrainVertex<T> this[int x, int y]
     {
-        get => _vertices[x * WIDTH + y];
-        set => _vertices[x * WIDTH + y] = value;
+        get => vertices[x * WIDTH + y];
+        set => vertices[x * WIDTH + y] = value;
     }
 
     /// <summary>
@@ -84,12 +84,12 @@ public struct TerrainChunk<T> where T : struct, IDivisionOperators<T, int, T>, I
     /// </summary>
     public TerrainChunk()
     {
-        _vertices = new TerrainVertex<T>[RESOLUTION];
+        vertices = new TerrainVertex<T>[RESOLUTION];
     }
 
     private TerrainChunk(ref TerrainVertex<T>[] vertices)
     {
-        _vertices = vertices;
+        this.vertices = vertices;
     }
 
     /// <summary>
@@ -116,8 +116,8 @@ public struct TerrainChunk<T> where T : struct, IDivisionOperators<T, int, T>, I
         TerrainChunk<T> chunk = new(ref terrainVertices)
         {
             palette = biomes[biomeId].Palette,
-            _baseHeight = (byte)((chunkData >> 3) & 0x1F),
-            _biomeId = biomeId
+            baseHeight = (byte)((chunkData >> 3) & 0x1F),
+            biomeId = biomeId
         };
 
         for (int i = 1; i < chunk.Length; i++)
@@ -141,11 +141,11 @@ public struct TerrainChunk<T> where T : struct, IDivisionOperators<T, int, T>, I
             throw new ArgumentException($"The buffer size must be {BUFFER_SIZE}.", nameof(buffer));
         }
 
-        buffer[0] = (byte)((_baseHeight << 3) | _biomeId);
+        buffer[0] = (byte)((baseHeight << 3) | biomeId);
 
         for (int i = 1; i < buffer.Length; i++)
         {
-            buffer[i] = _vertices[i].Encode(this);
+            buffer[i] = vertices[i].Encode(this);
         }
     }
 }
