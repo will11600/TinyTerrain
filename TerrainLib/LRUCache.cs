@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace TinyTerrain;
 
-internal sealed class LRUCache<T>(int capacity) : IEnumerable<ChunkPosition<T>>, IDisposable where T : struct, IDivisionOperators<T, int, T>, IAdditionOperators<T, T, T>
+internal sealed class LRUCache<T>(int capacity) : IEnumerable<ChunkPosition<T>>, IDisposable where T : IDivisionOperators<T, int, T>, IAdditionOperators<T, T, T>
 {
     private readonly Dictionary<Vector2UInt, LinkedListNode<ChunkPosition<T>>> cache = [];
     private readonly LinkedList<ChunkPosition<T>> lruList = new();
