@@ -101,7 +101,7 @@ public struct TerrainChunk<T> where T : IDivisionOperators<T, int, T>, IAddition
     /// <param name="biome">The biome for the chunk.</param>
     /// <returns>The decoded <see cref="TerrainChunk"/> instance.</returns>
     /// <exception cref="ArgumentException">Thrown if the length of the <paramref name="chunkAndVertexData"/> span does not match the expected number of vertices in the chunk.</exception>
-    public static TerrainChunk<T> Decode(ReadOnlySpan<byte> chunkAndVertexData, ref Biome<T>[] biomes)
+    public static TerrainChunk<T> Decode(ReadOnlySpan<byte> chunkAndVertexData, ref IBiome<T>[] biomes)
     {
         if (chunkAndVertexData.Length != BUFFER_SIZE)
         {
@@ -116,7 +116,7 @@ public struct TerrainChunk<T> where T : IDivisionOperators<T, int, T>, IAddition
 
         TerrainChunk<T> chunk = new(ref terrainVertices)
         {
-            palette = biomes[biomeId].palette,
+            palette = biomes[biomeId].Palette,
             baseHeight = (byte)((chunkData >> 3) & 0x1F),
             biomeId = biomeId
         };

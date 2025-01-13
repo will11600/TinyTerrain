@@ -9,13 +9,13 @@ public class TerrainTests
     private const byte CHUNK_BUFFER_SIZE = CHUNK_RESOLUTION + 1;
 
     // Test Biome implementation
-    private readonly struct TestBiome(int settings, MaterialPalette palette) : Biome<int>
+    private readonly struct TestBiome(int settings, MaterialPalette palette) : IBiome<int>
     {
         public int Settings { get; } = settings;
-        public MaterialPalette palette { get; } = palette;
+        public MaterialPalette Palette { get; } = palette;
     }
 
-    private Biome<int>[] biomes = [new TestBiome(0, new MaterialPalette([1, 2, 3, 4]))];
+    private IBiome<int>[] biomes = [new TestBiome(0, new MaterialPalette([1, 2, 3, 4]))];
 
     [TestMethod]
     public void TerrainChunk_EncodeDecode_ShouldMatch()
