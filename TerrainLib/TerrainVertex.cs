@@ -9,7 +9,7 @@ namespace TinyTerrain;
 /// Represents a single vertex in the terrain.
 /// </summary>
 /// <typeparam name="T">The biome type</typeparam>
-public struct TerrainVertex<T>(short height, byte materialId) where T : struct, IDivisionOperators<T, int, T>, IAdditionOperators<T, T, T>
+public struct TerrainVertex<T>(short height, byte materialId) where T : IDivisionOperators<T, int, T>, IAdditionOperators<T, T, T>
 {
     /// <summary>
     /// The height of the vertex.

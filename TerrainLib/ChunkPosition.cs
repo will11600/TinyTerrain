@@ -2,7 +2,7 @@
 
 namespace TinyTerrain;
 
-internal struct ChunkPosition<T>(uint x, uint y, TerrainChunk<T> chunk) where T : struct, IDivisionOperators<T, int, T>, IAdditionOperators<T, T, T>
+internal struct ChunkPosition<T>(uint x, uint y, TerrainChunk<T> chunk) where T : IDivisionOperators<T, int, T>, IAdditionOperators<T, T, T>
 {
     public Vector2UInt position = new(x, y);
     public TerrainChunk<T> chunk = chunk;
