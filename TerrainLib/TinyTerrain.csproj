@@ -11,7 +11,7 @@
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/will11600/TinyTerrain</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <AssemblyVersion>1.1.1.0</AssemblyVersion>
+    <PackageVersion>1.1.0</PackageVersion>
     <Title>Tiny Terrain</Title>
     <PackageReleaseNotes>Replace `IBiome&lt;T&gt;` interface with `Biome&lt;T&gt;` class across the codebase, updating method signatures, constructor parameters, and field types accordingly. Modify `BilinearSample` and `GetBilinearSamplesAroundPoint` methods in `Terrain.cs` to use the new class. Update `TinyTerrain.csproj` with additional project metadata and include `readme.md`. Adjust `TestBiome` in `TerrainTests.cs` to implement `Biome&lt;int&gt;`.</PackageReleaseNotes>
   </PropertyGroup>
