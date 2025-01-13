@@ -27,7 +27,7 @@ public sealed class Terrain<T> : IDisposable where T : struct, IDivisionOperator
     /// <summary>
     /// The biomes used in the terrain
     /// </summary>
-    public IBiome<T>[] biomes;
+    public Biome<T>[] biomes;
 
     private readonly uint resolution;
     private readonly uint headerLength;
@@ -95,7 +95,7 @@ public sealed class Terrain<T> : IDisposable where T : struct, IDivisionOperator
         }
     }
 
-    private Terrain(string path, FileMode mode, ref IBiome<T>[] biomes, int bufferSize)
+    private Terrain(string path, FileMode mode, ref Biome<T>[] biomes, int bufferSize)
     {
         cache = new LRUCache<T>(bufferSize);
 
@@ -112,7 +112,7 @@ public sealed class Terrain<T> : IDisposable where T : struct, IDivisionOperator
     /// <param name="path">The path to the terrain file</param>
     /// <param name="biomes">The biomes to use in the terrain</param>
     /// <param name="bufferSize">The number of chunks to cache (default 64)</param>
-    public Terrain(uint width, uint height, string path, ref IBiome<T>[] biomes, int bufferSize = 64) : this(path, FileMode.CreateNew, ref biomes, bufferSize)
+    public Terrain(uint width, uint height, string path, ref Biome<T>[] biomes, int bufferSize = 64) : this(path, FileMode.CreateNew, ref biomes, bufferSize)
     {
         this.width = width;
         this.height = height;
@@ -131,7 +131,7 @@ public sealed class Terrain<T> : IDisposable where T : struct, IDivisionOperator
     /// <param name="path">The path to the terrain file</param>
     /// <param name="biomes">The biomes to use in the terrain</param>
     /// <param name="bufferSize">The number of chunks to cache (default 64)</param>
-    public Terrain(string path, ref IBiome<T>[] biomes, int bufferSize = 64) : this(path, FileMode.Open, ref biomes, bufferSize)
+    public Terrain(string path, ref Biome<T>[] biomes, int bufferSize = 64) : this(path, FileMode.Open, ref biomes, bufferSize)
     {
         width = ReadInt32();
         height = ReadInt32();
@@ -159,19 +159,19 @@ public sealed class Terrain<T> : IDisposable where T : struct, IDivisionOperator
     public T BilinearSample(Vector2UInt chunkIndex)
     {
         TerrainChunk<T> chunk = this[chunkIndex.x, chunkIndex.z];
-        T finalSample = biomes[chunk.BiomeId].Settings;
+        T finalSample = biomes[chunk.BiomeId].settings;
 
         int sampleCount = 1;
-        foreach (IBiome<T> sample in GetBilinearSamplesAroundPoint(chunkIndex))
+        foreach (Biome<T> sample in GetBilinearSamplesAroundPoint(chunkIndex))
         {
             sampleCount++;
-            finalSample += sample.Settings;
+            finalSample += sample.settings;
         }
 
         return finalSample / sampleCount;
     }
 
-    private IEnumerable<IBiome<T>> GetBilinearSamplesAroundPoint(Vector2UInt chunkIndex)
+    private IEnumerable<Biome<T>> GetBilinearSamplesAroundPoint(Vector2UInt chunkIndex)
     {
         if (chunkIndex.x + 1 < width) // Directly to the right
         {

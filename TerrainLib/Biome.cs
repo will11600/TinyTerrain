@@ -6,15 +6,15 @@ namespace TinyTerrain;
 /// Represents a biome with specific settings and a material palette.
 /// </summary>
 /// <typeparam name="T">The type of the biome settings struct.</typeparam>
-public interface IBiome<T> where T : struct, IDivisionOperators<T, int, T>, IAdditionOperators<T, T, T>
+public class Biome<T> where T : struct, IDivisionOperators<T, int, T>, IAdditionOperators<T, T, T>
 {
     /// <summary>
-    /// Gets the material palette associated with the biome.
+    /// The material palette associated with the biome.
     /// </summary>
-    public MaterialPalette Palette { get; }
+    public MaterialPalette palette;
 
     /// <summary>
-    /// Gets the settings of the biome.
+    /// The settings of the biome.
     /// </summary>
-    public T Settings { get; }
+    public T settings;
 }

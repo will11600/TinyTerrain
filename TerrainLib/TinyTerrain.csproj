@@ -6,6 +6,18 @@
     <Nullable>enable</Nullable>
     <Authors>willbldn</Authors>
     <Copyright>© William Brocklesby 2025</Copyright>
+    <Description>C# library for efficient storage and streaming of terrain data. Optimized for compact storage and fast retrieval, making it ideal for games and applications with demanding terrain management needs.</Description>
+    <PackageProjectUrl></PackageProjectUrl>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/will11600/TinyTerrain</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\readme.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
 </Project>
