@@ -8,7 +8,7 @@ namespace TinyTerrain;
 /// <summary>
 /// Represents a chunk of terrain data.
 /// </summary>
-public struct TerrainChunk<T> where T : IDivisionOperators<T, int, T>, IAdditionOperators<T, T, T>
+public struct TerrainChunk<T> where T : struct, IDivisionOperators<T, int, T>, IAdditionOperators<T, T, T>
 {
     public const byte WIDTH = 8;
     public const byte HEIGHT = 8;
