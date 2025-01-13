@@ -12,7 +12,8 @@ public struct TerrainChunk<T> where T : IDivisionOperators<T, int, T>, IAddition
 {
     public const byte WIDTH = 8;
     public const byte HEIGHT = 8;
-    internal const byte RESOLUTION = WIDTH * HEIGHT;
+    public const byte RESOLUTION = WIDTH * HEIGHT;
+
     internal const byte BUFFER_SIZE = RESOLUTION + 1;
 
     private readonly TerrainVertex<T>[] vertices;
