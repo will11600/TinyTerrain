@@ -49,7 +49,7 @@ public class TerrainTests
             for (int j = 0; j < CHUNK_HEIGHT; j++)
             {
                 Assert.AreEqual(originalChunk[i, j].height, decodedChunk[i, j].height);
-                Assert.AreEqual(originalChunk[i, j].MaterialId, decodedChunk[i, j].MaterialId);
+                Assert.AreEqual(originalChunk[i, j].materialId, decodedChunk[i, j].materialId);
             }
         }
     }
@@ -71,7 +71,7 @@ public class TerrainTests
 
         // Assert
         Assert.AreEqual(originalVertex.height, decodedVertex.height);
-        Assert.AreEqual(originalVertex.MaterialId, decodedVertex.MaterialId);
+        Assert.AreEqual(originalVertex.materialId, decodedVertex.materialId);
     }
 
     [TestMethod]
