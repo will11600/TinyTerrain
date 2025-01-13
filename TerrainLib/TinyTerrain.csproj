@@ -11,9 +11,9 @@
     <PackageReadmeFile>readme.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/will11600/TinyTerrain</RepositoryUrl>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageVersion>1.2.0</PackageVersion>
+    <PackageVersion>1.2.1</PackageVersion>
     <Title>Tiny Terrain</Title>
-    <PackageReleaseNotes>Remove `struct` constraint on generic type `T` across multiple classes and structs. Add constructors to `Biome` class for initializing `settings` and `palette` fields.</PackageReleaseNotes>
+    <PackageReleaseNotes>Make RESOLUTION constant in TerrainChunk public.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
