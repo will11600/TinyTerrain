@@ -10,8 +10,8 @@ namespace TinyTerrain;
 /// </summary>
 public struct TerrainChunk<T> where T : struct, IDivisionOperators<T, int, T>, IAdditionOperators<T, T, T>
 {
-    internal const byte WIDTH = 8;
-    internal const byte HEIGHT = 8;
+    public const byte WIDTH = 8;
+    public const byte HEIGHT = 8;
     internal const byte RESOLUTION = WIDTH * HEIGHT;
     internal const byte BUFFER_SIZE = RESOLUTION + 1;
 
