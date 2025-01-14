@@ -6,7 +6,7 @@ namespace TinyTerrain
     /// Represents a terrain composed of chunks.
     /// </summary>
     /// <typeparam name="T">The biome type</typeparam>
-    public sealed class Terrain<T> : IDisposable where T : IDivisionOperators<T, int, T>, IAdditionOperators<T, T, T>
+    public sealed class Terrain<T> : IDisposable where T : BiomeSettings
     {
         private const string INDEX_OUT_OF_RANGE_MSG = "The requested chunk is outside the bounds of the terrain.";
 

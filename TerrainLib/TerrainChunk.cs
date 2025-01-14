@@ -1,6 +1,4 @@
-﻿using System.Numerics;
-
-namespace TinyTerrain
+﻿namespace TinyTerrain
 {
     // 11111000 - Height
     // 00000111 - Biome ID
@@ -8,7 +6,7 @@ namespace TinyTerrain
     /// <summary>
     /// Represents a chunk of terrain data.
     /// </summary>
-    public struct TerrainChunk<T> where T : IDivisionOperators<T, int, T>, IAdditionOperators<T, T, T>
+    public struct TerrainChunk<T> where T : BiomeSettings
     {
         public const byte WIDTH = 8;
         public const byte HEIGHT = 8;

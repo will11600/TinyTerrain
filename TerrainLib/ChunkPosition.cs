@@ -1,8 +1,6 @@
-﻿using System.Numerics;
-
-namespace TinyTerrain
+﻿namespace TinyTerrain
 {
-    internal struct ChunkPosition<T>(uint x, uint y, TerrainChunk<T> chunk) where T : IDivisionOperators<T, int, T>, IAdditionOperators<T, T, T>
+    internal struct ChunkPosition<T>(uint x, uint y, TerrainChunk<T> chunk) where T : BiomeSettings
     {
         public Vector2UInt position = new(x, y);
         public TerrainChunk<T> chunk = chunk;
