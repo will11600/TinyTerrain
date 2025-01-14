@@ -1,16 +1,23 @@
 ﻿using System.Collections;
-using System.Runtime.CompilerServices;
 
 namespace TinyTerrain
 {
-    internal sealed class LRUCache<T>(int capacity) : IEnumerable<ChunkPosition<T>>, IDisposable where T : BiomeSettings
+    internal sealed class LRUCache<T> : IEnumerable<ChunkPosition<T>>, IDisposable where T : BiomeSettings
     {
-        private readonly Dictionary<Vector2UInt, LinkedListNode<ChunkPosition<T>>> cache = [];
-        private readonly LinkedList<ChunkPosition<T>> lruList = new();
-        private readonly ReaderWriterLockSlim rwLock = new();
+        private readonly Dictionary<Vector2UInt, LinkedListNode<ChunkPosition<T>>> cache;
+        private readonly LinkedList<ChunkPosition<T>> lruList;
+        private readonly ReaderWriterLockSlim rwLock;
 
         public int Count => cache.Count;
-        public int Capacity { get; init; } = capacity;
+        public readonly int capacity;
+
+        public LRUCache(int capacity)
+        {
+            this.capacity = capacity;
+            cache = new Dictionary<Vector2UInt, LinkedListNode<ChunkPosition<T>>>(capacity);
+            lruList = new LinkedList<ChunkPosition<T>>();
+            rwLock = new ReaderWriterLockSlim();
+        }
 
         public TerrainChunk<T>? Get(uint x, uint y)
         {
@@ -25,13 +32,13 @@ namespace TinyTerrain
             {
                 if (!cache.TryGetValue(position, out LinkedListNode<ChunkPosition<T>>? node))
                 {
-                    return Unsafe.NullRef<TerrainChunk<T>>();
+                    return null;
                 }
 
                 lruList.Remove(node);
                 lruList.AddFirst(node);
 
-                return node.ValueRef.chunk;
+                return node.Value.chunk;
             }
             finally { rwLock.ExitReadLock(); }
         }
@@ -44,8 +51,7 @@ namespace TinyTerrain
             {
                 for (int i = 0; i < values.Length; i++)
                 {
-                    if (values[i] is not ChunkPosition<T> value) { continue; }
-                    values[i] = Swap(value);
+                    if (values[i] is ChunkPosition<T> value) { Swap(value); }
                 }
             }
             finally { rwLock.ExitWriteLock(); }
@@ -59,7 +65,7 @@ namespace TinyTerrain
             {
                 if (cache.TryGetValue(value.position, out LinkedListNode<ChunkPosition<T>>? node))
                 {
-                    node.ValueRef = value;
+                    node.Value = value;
                     lruList.Remove(node);
                     lruList.AddFirst(node);
 
@@ -76,16 +82,21 @@ namespace TinyTerrain
             LinkedListNode<ChunkPosition<T>> node = lruList.AddFirst(chunkPos);
             cache.Add(chunkPos.position, node);
 
-            return Count > Capacity ? EvictLeastRecentlyUsed() : null;
+            if (Count > capacity)
+            {
+                return EvictLeastRecentlyUsed();
+            }
+
+            return null;
         }
 
         private ChunkPosition<T> EvictLeastRecentlyUsed()
         {
             LinkedListNode<ChunkPosition<T>> lastNode = lruList.Last!;
             lruList.RemoveLast();
-            cache.Remove(lastNode.ValueRef.position);
+            cache.Remove(lastNode.Value.position);
 
-            return lastNode.ValueRef;
+            return lastNode.Value;
         }
 
         public IEnumerator<ChunkPosition<T>> GetEnumerator()
