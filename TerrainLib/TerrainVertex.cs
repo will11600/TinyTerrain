@@ -7,19 +7,30 @@
     /// Represents a single vertex in the terrain.
     /// </summary>
     /// <typeparam name="T">The biome type</typeparam>
-    public struct TerrainVertex<T>(short height, byte materialId) where T : BiomeSettings
+    public struct TerrainVertex<T> where T : BiomeSettings
     {
         /// <summary>
         /// The height of the vertex.
         /// </summary>
-        public short height = height;
+        public short height;
 
         /// <summary>
         /// The material ID.
         /// </summary>
         /// <value>The material ID.</value>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when the value is less than 0 or greater than 3.</exception>
-        public byte materialId = materialId;
+        public byte materialId;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TerrainVertex"/> struct.
+        /// </summary>
+        /// <param name="height"></param>
+        /// <param name="materialId"></param>
+        public TerrainVertex(short height, byte materialId)
+        {
+            this.height = height;
+            this.materialId = materialId;
+        }
 
         /// <summary>
         /// Decodes a compressed vertex byte into a <see cref="TerrainVertex"/> instance.
@@ -40,7 +51,7 @@
 
             short finalHeight = (short)(chunk.BaseHeight * 4 + heightOffset);
 
-            return new(finalHeight, materialId);
+            return new TerrainVertex<T>(finalHeight, materialId);
         }
 
         /// <summary>
