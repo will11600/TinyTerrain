@@ -165,10 +165,12 @@ namespace TinyTerrain
             foreach (IBiome<T> sample in GetBilinearSamplesAroundPoint(chunkIndex))
             {
                 sampleCount++;
-                finalSample += sample.Settings;
+                finalSample.AggregateAdd(sample.Settings);
             }
 
-            return finalSample / sampleCount;
+            finalSample.DivideBy(sampleCount);
+
+            return finalSample;
         }
 
         private IEnumerable<IBiome<T>> GetBilinearSamplesAroundPoint(Vector2UInt chunkIndex)
