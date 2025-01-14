@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace TinyTerrain
 {
@@ -21,12 +23,12 @@ namespace TinyTerrain
             readonly get => (map >> (index * 4)) & 0xF;
             set
             {
-                if (index is < 0 or > 3)
+                if (index < 0 || index > 3)
                 {
                     throw new ArgumentOutOfRangeException(nameof(index), index, "Index must be between 0 and 3.");
                 }
 
-                if (value is < 0 or > 15)
+                if (value < 0 || index > 15)
                 {
                     throw new ArgumentOutOfRangeException(nameof(value), value, "Value must be between 0 and 15.");
                 }
@@ -52,11 +54,14 @@ namespace TinyTerrain
             map = 0;
             for (int i = 0; i < 4; i++)
             {
-                if (indexes[i] is < 0 or > 15)
+                var index = indexes[i];
+
+                if (index < 0 || index > 15)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(indexes), indexes[i], "Index must be between 0 and 15.");
+                    throw new ArgumentOutOfRangeException(nameof(indexes), index, "Index must be between 0 and 15.");
                 }
-                map |= (ushort)(indexes[i] << (i * 4));
+
+                map |= (ushort)(index << (i * 4));
             }
         }
 
