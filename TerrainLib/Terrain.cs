@@ -200,13 +200,13 @@ namespace TinyTerrain
         /// <returns>A new TerrainStreamingHandler instance</returns>
         public TerrainStreamingHandler CreateStreamingHandler(byte radius = 8)
         {
-            TerrainStreamingHandler handler = new(radius);
+            TerrainStreamingHandler handler = new TerrainStreamingHandler(radius);
 
             lock (handles) { handles.AddLast(new WeakReference(handler)); }
 
             if (terrainThread is null || !terrainThread.IsAlive)
             {
-                cancellationTokenSource = new();
+                cancellationTokenSource = new CancellationTokenSource();
 
                 terrainThread = new Thread(TerrainThreadLoop);
                 terrainThread.Start();
