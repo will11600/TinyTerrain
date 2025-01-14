@@ -40,7 +40,7 @@ namespace TinyTerrain
 
         private readonly FileStream stream;
 
-        private readonly LinkedList<WeakReference> handles = [];
+        private readonly LinkedList<WeakReference> handles;
         private CancellationTokenSource? cancellationTokenSource;
         private Thread? terrainThread;
 
@@ -101,6 +101,8 @@ namespace TinyTerrain
 
         private Terrain(string path, FileMode mode, ref IBiome<T>[] biomes, int bufferSize)
         {
+            handles = new LinkedList<WeakReference>();
+
             cache = new LRUCache<T>(bufferSize);
 
             this.biomes = biomes;
