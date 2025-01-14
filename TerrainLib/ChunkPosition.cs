@@ -1,4 +1,6 @@
-﻿namespace TinyTerrain
+﻿using System;
+
+namespace TinyTerrain
 {
     internal struct ChunkPosition<T> where T : BiomeSettings
     {
