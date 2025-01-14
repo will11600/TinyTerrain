@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System;
+using System.Numerics;
 
 namespace TinyTerrain
 {
@@ -17,15 +18,6 @@ namespace TinyTerrain
         /// The z-coordinate of the vector.
         /// </summary>
         public uint z;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Vector2UInt"/> struct with both components set to 0.
-        /// </summary>
-        public Vector2UInt()
-        {
-            x = 0;
-            z = 0;
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Vector2UInt"/> struct with the specified x and z coordinates.
@@ -55,61 +47,122 @@ namespace TinyTerrain
 
         internal static Vector2UInt WorldSpaceToChunkIndices(Vector2 worldSpacePosition)
         {
-            return new(TransformCoordinate(worldSpacePosition.X), TransformCoordinate(worldSpacePosition.Y));
+            return new Vector2UInt(TransformCoordinate(worldSpacePosition.X), TransformCoordinate(worldSpacePosition.Y));
         }
 
+        /// <summary>
+        /// Adds two vectors together.
+        /// </summary>
+        /// <param name="left">The left vector.</param>
+        /// <param name="right">The right vector.</param>
+        /// <returns>The sum of the two vectors.</returns>
         public static Vector2UInt operator +(Vector2UInt left, Vector2UInt right)
         {
-            return new(left.x + right.x, left.z + right.x);
+            return new Vector2UInt(left.x + right.x, left.z + right.x);
         }
 
+        /// <summary>
+        /// Subtracts one vector from another.
+        /// </summary>
+        /// <param name="left">The left vector.</param>
+        /// <param name="right">The right vector.</param>
+        /// <returns>The difference between the two vectors.</returns>
         public static Vector2UInt operator -(Vector2UInt left, Vector2UInt right)
         {
             uint xDiff = left.x > right.x ? left.x - right.x : right.x - left.x;
             uint zDiff = left.z > right.z ? left.z - right.z : right.z - left.z;
-            return new(xDiff, zDiff);
+            return new Vector2UInt(xDiff, zDiff);
         }
 
+        /// <summary>
+        /// Divides a vector by a scalar value.
+        /// </summary>
+        /// <param name="left">The vector to divide.</param>
+        /// <param name="right">The scalar value to divide by.</param>
+        /// <returns>The vector divided by the scalar value.</returns>
         public static Vector2UInt operator /(Vector2UInt left, uint right)
         {
-            return new(left.x / right, left.z / right);
+            return new Vector2UInt(left.x / right, left.z / right);
         }
 
+        /// <summary>
+        /// Multiplies two vectors together.
+        /// </summary>
+        /// <param name="left">The left vector.</param>
+        /// <param name="right">The right vector.</param>
+        /// <returns>The product of the two vectors.</returns>
         public static Vector2UInt operator *(Vector2UInt left, Vector2UInt right)
         {
-            return new(left.x * right.x, left.z * right.z);
+            return new Vector2UInt(left.x * right.x, left.z * right.z);
         }
 
+        /// <summary>
+        /// Determines whether two vectors are equal.
+        /// </summary>
+        /// <param name="left">The left vector.</param>
+        /// <param name="right">The right vector.</param>
+        /// <returns>A value indicating whether the two vectors are equal.</returns>
         public static bool operator ==(Vector2UInt left, Vector2UInt right)
         {
             return left.x == right.x && left.z == right.z;
         }
 
+        /// <summary>
+        /// Determines whether two vectors are not equal.
+        /// </summary>
+        /// <param name="left">The left vector.</param>
+        /// <param name="right">The right vector.</param>
+        /// <returns>A value indicating whether the two vectors are not equal.</returns>
         public static bool operator !=(Vector2UInt left, Vector2UInt right)
         {
             return left.x != right.x || left.z != right.z;
         }
 
+        /// <summary>
+        /// Determines whether the left vector is greater than or equal to the right vector.
+        /// </summary>
+        /// <param name="left">The left vector.</param>
+        /// <param name="right">The right vector.</param>
+        /// <returns>A value indicating whether the left vector is greater than or equal to the right vector.</returns>
         public static bool operator >=(Vector2UInt left, Vector2UInt right)
         {
             return left.x >= right.x && left.z >= right.z;
         }
 
+        /// <summary>
+        /// Determines whether the left vector is less than or equal to the right vector.
+        /// </summary>
+        /// <param name="left">The left vector.</param>
+        /// <param name="right">The right vector.</param>
+        /// <returns>A value indicating whether the left vector is less than or equal to the right vector.</returns>
         public static bool operator <=(Vector2UInt left, Vector2UInt right)
         {
             return left.x <= right.x && left.z <= right.z;
         }
 
+        /// <summary>
+        /// Determines whether the left vector is greater than the right vector.
+        /// </summary>
+        /// <param name="left">The left vector.</param>
+        /// <param name="right">The right vector.</param>
+        /// <returns>A value indicating whether the left vector is greater than the right vector.</returns>
         public static bool operator >(Vector2UInt left, Vector2UInt right)
         {
             return left.x > right.x && left.z > right.z;
         }
 
+        /// <summary>
+        /// Determines whether the left vector is less than the right vector.
+        /// </summary>
+        /// <param name="left">The left vector.</param>
+        /// <param name="right">The right vector.</param>
+        /// <returns>A value indicating whether the left vector is less than the right vector.</returns>
         public static bool operator <(Vector2UInt left, Vector2UInt right)
         {
             return left.x < right.x && left.z < right.z;
         }
 
+        /// <inheritdoc/>
         public override readonly bool Equals(object? obj)
         {
             if (obj is Vector2UInt vector2UInt)
@@ -120,6 +173,7 @@ namespace TinyTerrain
             return base.Equals(obj);
         }
 
+        /// <inheritdoc/>
         public override readonly int GetHashCode()
         {
             return HashCode.Combine(x, z);
