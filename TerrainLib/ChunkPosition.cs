@@ -1,14 +1,21 @@
-﻿using System.Numerics;
+﻿using System;
 
-namespace TinyTerrain;
-
-internal struct ChunkPosition<T>(uint x, uint y, TerrainChunk<T> chunk) where T : IDivisionOperators<T, int, T>, IAdditionOperators<T, T, T>
+namespace TinyTerrain
 {
-    public Vector2UInt position = new(x, y);
-    public TerrainChunk<T> chunk = chunk;
-
-    public static ChunkPosition<T> Decode(ReadOnlySpan<byte> chunkAndVertexData, ref IBiome<T>[] biomes, uint x, uint z)
+    internal struct ChunkPosition<T> where T : BiomeSettings
     {
-        return new(x, z, TerrainChunk<T>.Decode(chunkAndVertexData, ref biomes));
+        public Vector2UInt position;
+        public TerrainChunk<T> chunk;
+
+        public ChunkPosition(uint x, uint y, TerrainChunk<T> chunk)
+        {
+            position = new Vector2UInt(x, y);
+            this.chunk = chunk;
+        }
+
+        public static ChunkPosition<T> Decode(ReadOnlySpan<byte> chunkAndVertexData, ref IBiome<T>[] biomes, uint x, uint z)
+        {
+            return new ChunkPosition<T>(x, z, TerrainChunk<T>.Decode(chunkAndVertexData, ref biomes));
+        }
     }
 }
