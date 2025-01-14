@@ -265,12 +265,13 @@ namespace TinyTerrain
 
             while (handles.Count > 0 || cancellationTokenSource!.IsCancellationRequested)
             {
-                for (LinkedListNode<WeakReference>? node = handles.First; node is not null; node = PurgeDeadAndMoveNext(node))
+                for (LinkedListNode<WeakReference>? node = handles.First; node is LinkedListNode<WeakReference>; node = PurgeDeadAndMoveNext(node))
                 {
-                    if (node.ValueRef.Target is not TerrainStreamingHandler handler || handler.Radius < 1 || !handler.IsDirty) { continue; }
-
-                    LoadArea(handler);
-                    handler.IsDirty = false;
+                    if (node.Value.Target is TerrainStreamingHandler handler && handler.Radius < 1 && !handler.IsDirty)
+                    {
+                        LoadArea(handler);
+                        handler.IsDirty = false;
+                    }
                 }
 
                 Thread.Sleep(500);
@@ -279,7 +280,7 @@ namespace TinyTerrain
 
         private LinkedListNode<WeakReference>? PurgeDeadAndMoveNext(LinkedListNode<WeakReference> node)
         {
-            if (node.Next is LinkedListNode<WeakReference> nextNode && !nextNode.ValueRef.IsAlive)
+            if (node.Next is LinkedListNode<WeakReference> nextNode && !nextNode.Value.IsAlive)
             {
                 lock (handles) { handles.Remove(node); }
                 return nextNode;
@@ -322,7 +323,7 @@ namespace TinyTerrain
 
             long offset = StreamPositionFromIndices(topLeft.x, topLeft.z);
 
-            List<ChunkPosition<T>>? evictedChunks = stream.CanWrite ? new() : null;
+            List<ChunkPosition<T>>? evictedChunks = stream.CanWrite ? new List<ChunkPosition<T>>() : null;
 
             lock (stream)
             {
@@ -344,7 +345,7 @@ namespace TinyTerrain
                         if (cache.Swap(new ChunkPosition<T>(x, z, chunk)) is ChunkPosition<T> cached) { evictedChunks?.Add(cached); }
                     }
 
-                    ChunkLoaded?.Invoke(chunk, new(x, z));
+                    ChunkLoaded?.Invoke(chunk, new Vector2UInt(x, z));
                 }
             }
 
@@ -361,7 +362,7 @@ namespace TinyTerrain
         /// </summary>
         public void Dispose()
         {
-            if (terrainThread is not null)
+            if (terrainThread != null)
             {
                 cancellationTokenSource!.Cancel();
                 terrainThread.Join();
