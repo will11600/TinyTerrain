@@ -101,7 +101,7 @@ namespace TinyTerrain
 
             this.biomes = biomes;
 
-            stream = new(path, mode, FileAccess.ReadWrite);
+            stream = new FileStream(path, mode, FileAccess.ReadWrite);
         }
 
         /// <summary>
