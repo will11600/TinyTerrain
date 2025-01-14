@@ -1,4 +1,6 @@
-﻿namespace TinyTerrain
+﻿using System;
+
+namespace TinyTerrain
 {
     // 11000000 - Material ID (from palette)
     // 00111111 - Height
@@ -22,7 +24,7 @@
         public byte materialId;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TerrainVertex"/> struct.
+        /// Initializes a new instance of the <see cref="TerrainVertex{T}"/> struct.
         /// </summary>
         /// <param name="height"></param>
         /// <param name="materialId"></param>
@@ -33,11 +35,11 @@
         }
 
         /// <summary>
-        /// Decodes a compressed vertex byte into a <see cref="TerrainVertex"/> instance.
+        /// Decodes a compressed vertex byte into a <see cref="TerrainVertex{T}"/> instance.
         /// </summary>
         /// <param name="vertex">The compressed vertex data.</param>
         /// <param name="chunk">The terrain chunk the vertex belongs to.</param>
-        /// <returns>The decoded <see cref="TerrainVertex"/> instance.</returns>
+        /// <returns>The decoded <see cref="TerrainVertex{T}"/> instance.</returns>
         public static TerrainVertex<T> Decode(byte vertex, TerrainChunk<T> chunk)
         {
             int materialIndex = (vertex >> 6) & 0x03;
