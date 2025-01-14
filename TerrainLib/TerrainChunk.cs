@@ -96,7 +96,7 @@ namespace TinyTerrain
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TerrainChunk"/> struct.
+        /// Initializes a new instance of the <see cref="TerrainChunk{T}"/> struct.
         /// </summary>
         /// <param name="palette">The material palette used by the chunk.</param>
         /// <param name="baseHeight">The base height of the chunk.</param>
@@ -114,11 +114,11 @@ namespace TinyTerrain
         }
 
         /// <summary>
-        /// Decodes the compressed chunk data and vertex data into a <see cref="TerrainChunk"/> instance.
+        /// Decodes the compressed chunk data and vertex data into a <see cref="TerrainChunk{T}"/> instance.
         /// </summary>
         /// <param name="chunkAndVertexData">A span of compressed vertex data.</param>
         /// <param name="biomes">The biome for the chunk.</param>
-        /// <returns>The decoded <see cref="TerrainChunk"/> instance.</returns>
+        /// <returns>The decoded <see cref="TerrainChunk{T}"/> instance.</returns>
         /// <exception cref="ArgumentException">Thrown if the length of the <paramref name="chunkAndVertexData"/> span does not match the expected number of vertices in the chunk.</exception>
         public static TerrainChunk<T> Decode(ReadOnlySpan<byte> chunkAndVertexData, ref IBiome<T>[] biomes)
         {
